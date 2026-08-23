@@ -8,31 +8,31 @@
 <meta name="theme-color" content="#ff5fa2">
 
 <!--
-╔══════════════════════════════════════════════════════════════╗
-║  ФАЙЛЫ. Создай рядом папку assets/ и положи туда 7 файлов:   ║
-╠══════════════════════════════════════════════════════════════╣
-║  ФОТО (4 шт, .jpg)                                           ║
-║  1. assets/photo-1-hello.jpg     стр.1 «Айкен»               ║
-║                                  вертикальное 3:4, портрет   ║
-║  2. assets/photo-2-dossier.jpg   стр.2 «Досье»               ║
-║                                  вертикальное 3:4, в полный  ║
-║                                  рост или по пояс            ║
-║  3. assets/photo-3-people.jpg    стр.3 «Что о ней говорят»   ║
-║                                  вертикальное 4:5, с людьми  ║
-║  4. assets/photo-4-birthday.jpg  стр.4 «17 декабря»          ║
-║                                  квадрат 1:1, весёлое        ║
-║                                                              ║
-║  ВИДЕО (3 шт, .mp4 — кодек H.264 + звук AAC)                 ║
-║  5. assets/video-5-food.mp4      стр.5 «Суши и мясо»         ║
-║                                  горизонт. 16:9, до 15 МБ    ║
-║  6. assets/video-6-fears.mp4     стр.6 «Айкен боится»        ║
-║                                  вертикальное 9:16, до 15 МБ ║
-║  7. assets/video-7-drive.mp4     стр.7 «За рулём»            ║
-║                                  горизонт. 16:9, до 20 МБ    ║
-║                                                              ║
-║  Имена файлов менять нельзя. Пока файла нет — на его месте   ║
-║  рамка с подсказкой, сайт при этом работает.                 ║
-╚══════════════════════════════════════════════════════════════╝
+╔═══════════════════════════════════════════════════════════════════╗
+║  ФАЙЛЫ. Создай рядом папку assets/ и положи туда:                 ║
+╠═══════════════════════════════════════════════════════════════════╣
+║  ВИДЕО — 7 шт, обязательные. Все горизонтальные 16:9,             ║
+║  формат .mp4, кодек H.264 + звук AAC, до 15–20 МБ каждое.         ║
+║                                                                   ║
+║   assets/video-1-hello.mp4      стр.1 «Привет»                    ║
+║   assets/video-2-dossier.mp4    стр.2 «Досье»                     ║
+║   assets/video-3-people.mp4     стр.3 «Цитаты»                    ║
+║   assets/video-4-birthday.mp4   стр.4 «17 декабря»                ║
+║   assets/video-5-food.mp4       стр.5 «Суши и мясо»               ║
+║   assets/video-6-fears.mp4      стр.6 «Страхи»                    ║
+║   assets/video-7-drive.mp4      стр.7 «За рулём»                  ║
+║                                                                   ║
+║  ФОТО — 5 шт, .jpg                                                ║
+║   assets/photo-1-hello.jpg      стр.1, вертикальное 3:4           ║
+║   assets/photo-2-dossier.jpg    стр.2, вертикальное 3:4           ║
+║   assets/photo-3-people.jpg     стр.3, вертикальное 4:5           ║
+║   assets/photo-4-birthday.jpg   стр.4, горизонтальное 16:9        ║
+║   assets/photo-6-proof.jpg      стр.6, ДОКАЗАТЕЛЬСТВО (с котом /  ║
+║                                 животным), вертикальное 3:4       ║
+║                                                                   ║
+║  Имена менять нельзя. Нет файла — на его месте рамка-подсказка,   ║
+║  сайт при этом работает.                                          ║
+╚═══════════════════════════════════════════════════════════════════╝
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase}
 
 .page{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
-  opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s;padding-bottom:130px}
+  opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s;padding-bottom:140px}
 .page.active{opacity:1;visibility:visible}
 
 .ph{display:flex;align-items:center;justify-content:center;text-align:center;height:100%;
@@ -59,9 +59,23 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   border:1.5px dashed rgba(255,255,255,.3);font-family:'JetBrains Mono',monospace;
   font-size:11px;line-height:1.9;letter-spacing:.04em;color:rgba(255,255,255,.6);padding:22px}
 .slot{position:relative;overflow:hidden}
-.slot img,.slot video{width:100%;height:100%;object-fit:cover}
+.slot img{width:100%;height:100%;object-fit:cover}
+.slot video{width:100%;height:100%;object-fit:cover}
 
-/* ═══════════ ПЕРЕХОД МЕЖДУ КОМНАТАМИ ═══════════ */
+/* ═══════════ ВИДЕО-ШАПКА (одинаковая на всех страницах) ═══════════ */
+/* контейнер строго 16:9 — на мобильном кадр виден целиком, без обрезки боков */
+.hero{position:relative;width:100%;aspect-ratio:16/9;max-height:76dvh;background:#000;overflow:hidden}
+.hero .slot{position:absolute;inset:0}
+.hero video{object-fit:contain;background:#000}
+.hero .ph{border:none}
+.hero .veil{position:absolute;inset:0;z-index:2;pointer-events:none}
+.hero .cap{position:absolute;left:0;right:0;bottom:6%;z-index:3;text-align:center;padding:0 20px}
+.hero .cap .eyebrow{display:block;margin-bottom:10px;opacity:.9}
+.hero h2{font-family:'Unbounded',sans-serif;font-weight:800;line-height:.95;letter-spacing:-.03em;
+  font-size:clamp(30px,7.4vw,72px);text-shadow:0 6px 34px rgba(0,0,0,.75)}
+@media(max-width:600px){.hero .cap{bottom:5%}}
+
+/* ═══════════ ЗАНАВЕС ═══════════ */
 #curtain{position:fixed;inset:0;z-index:200;pointer-events:none;display:grid;place-items:center;
   background:#0a0709;clip-path:inset(0 0 100% 0);transition:clip-path .55s cubic-bezier(.76,0,.24,1)}
 #curtain.down{clip-path:inset(0 0 0 0)}
@@ -69,17 +83,20 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 #curtain .cn{display:flex;align-items:center;gap:14px;opacity:0;transition:opacity .3s .15s}
 #curtain.down .cn{opacity:1}
 #curtain .cn svg{width:30px;height:30px}
-#curtain .cn span{font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(22px,5.5vw,40px);letter-spacing:-.01em}
+#curtain .cn span{font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(22px,5.5vw,40px)}
 
 /* ═══════════ НАВИГАЦИЯ ═══════════ */
 .hud{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;
-  gap:4px;padding:7px 8px;z-index:90;background:rgba(16,12,15,.78);backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.15);border-radius:999px;opacity:0;transition:opacity .6s ease .2s}
+  gap:4px;padding:7px 8px;z-index:90;background:rgba(16,12,15,.8);backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.15);border-radius:999px;
+  opacity:0;transition:opacity .45s ease}
 .hud.on{opacity:1}
+.hud.on.faded{opacity:.22}
+.hud.on.faded:hover,.hud.on.faded:focus-within{opacity:1}
 .hud .arw{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;opacity:.55;transition:.25s}
 .hud .arw:hover{opacity:1;background:rgba(255,255,255,.1)}
 .tabs{display:flex;gap:2px;padding:0 4px}
-.tab{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;opacity:.4;transition:.3s;position:relative}
+.tab{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;opacity:.42;transition:.3s;position:relative}
 .tab svg{width:19px;height:19px}
 .tab:hover{opacity:.85;background:rgba(255,255,255,.08)}
 .tab.on{opacity:1;background:var(--hue,#ff5fa2);color:#0a0709}
@@ -92,47 +109,70 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 .snd{position:fixed;right:16px;top:16px;z-index:95;width:44px;height:44px;border-radius:50%;
   display:grid;place-items:center;background:rgba(16,12,15,.75);backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,.18);opacity:0;transition:opacity .6s ease .2s,transform .2s}
+  border:1px solid rgba(255,255,255,.18);opacity:0;transition:opacity .5s,transform .2s}
 .snd.on{opacity:1}
 .snd:hover{transform:scale(1.08)}
 .snd .off-ln{opacity:0;transition:.2s}
 .snd.muted .off-ln{opacity:1}
 .snd.muted .wave{opacity:.25}
 
+/* ═══════════ КНОПКА НАВЕРХ ═══════════ */
+.top{position:fixed;right:16px;bottom:78px;z-index:92;width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(150deg,#ff8ec0,#ff5fa2);box-shadow:0 12px 26px rgba(255,95,162,.45);
+  display:grid;place-items:center;opacity:0;transform:translateY(16px) scale(.8);pointer-events:none;
+  transition:opacity .4s cubic-bezier(.34,1.5,.64,1),transform .4s cubic-bezier(.34,1.5,.64,1)}
+.top.show{opacity:1;transform:none;pointer-events:auto}
+.top:hover{animation:hop .55s ease}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+.top .ears{position:absolute;top:-9px;left:0;right:0;display:flex;justify-content:center;gap:22px}
+.top .ears i{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:13px solid #ff7cb4}
+.top svg{position:relative;z-index:2;color:#fff}
+.top .tail{position:absolute;right:-7px;bottom:9px;width:16px;height:16px;border:3px solid #ff7cb4;
+  border-color:#ff7cb4 transparent transparent #ff7cb4;border-radius:50% 0 0 0;transform:rotate(35deg)}
+@media(max-width:560px){.top{width:50px;height:50px;bottom:74px;right:14px}}
+
 .rise{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.3,1),transform .8s cubic-bezier(.2,.7,.3,1)}
 .rise.in{opacity:1;transform:none}
 
 /* ══════════════ 1 · ПРИВЕТ ══════════════ */
 #p1{background:#fff0f7;color:#3a2029}
+#p1 .hero{background:#ffdcec;border-radius:0 0 40px 40px}
+#p1 .hero video{background:#ffdcec}
+#p1 .hero .ph{background:repeating-linear-gradient(45deg,#ffe6f2 0 12px,#ffdcec 12px 24px);color:#b56b8f}
+#p1 .hero .veil{background:linear-gradient(transparent 55%,rgba(255,240,247,.9))}
+#p1 .hero h2{color:#ff5fa2;text-shadow:0 4px 22px rgba(255,255,255,.8);font-family:'Comfortaa',cursive;font-weight:700}
+#p1 .hero .eyebrow{color:#e0619b}
+#p1 .in1{position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding:44px 0 40px}
 #p1 .sky{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-#p1 .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.6;animation:drift 18s ease-in-out infinite}
-#p1 .b1{width:46vw;height:46vw;background:#ffc2e0;top:-14vw;left:-10vw}
-#p1 .b2{width:40vw;height:40vw;background:#ffdca8;bottom:-16vw;right:-12vw;animation-delay:-6s}
-#p1 .b3{width:30vw;height:30vw;background:#c9e4ff;top:40%;left:54%;animation-delay:-12s}
+#p1 .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 18s ease-in-out infinite}
+#p1 .b1{width:44vw;height:44vw;background:#ffc2e0;top:-10vw;left:-12vw}
+#p1 .b2{width:38vw;height:38vw;background:#ffdca8;bottom:-14vw;right:-12vw;animation-delay:-6s}
+#p1 .b3{width:28vw;height:28vw;background:#c9e4ff;top:44%;left:56%;animation-delay:-12s}
 @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(4%,-5%)}}
-#p1 .in1{position:relative;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:70px 0 40px}
-#p1 .eyebrow{color:#e0619b}
-.cat{width:124px;height:124px;filter:drop-shadow(0 12px 24px rgba(224,97,155,.32));cursor:pointer}
+.cat{width:112px;height:112px;filter:drop-shadow(0 12px 24px rgba(224,97,155,.32));cursor:pointer;position:relative;z-index:2}
 .cat .pupil{transition:transform .12s linear}
-#p1 h1{font-family:'Comfortaa',cursive;font-weight:700;line-height:.92;font-size:clamp(62px,17vw,170px);color:#ff5fa2;letter-spacing:-.03em}
-#p1 .sub{font-family:'Comfortaa',cursive;font-size:clamp(15px,3.6vw,19px);color:#7c5364;text-align:center;max-width:32ch;line-height:1.7}
-.frame{width:min(290px,70vw);aspect-ratio:3/4;border-radius:36px;overflow:hidden;border:7px solid #fff;
-  box-shadow:0 24px 48px rgba(224,97,155,.28);transform:rotate(-2.5deg);position:relative;background:#ffd9ec}
+#p1 h1{position:relative;z-index:2;font-family:'Comfortaa',cursive;font-weight:700;line-height:.92;
+  font-size:clamp(56px,15vw,148px);color:#ff5fa2;letter-spacing:-.03em}
+#p1 .sub{position:relative;z-index:2;font-family:'Comfortaa',cursive;font-size:clamp(15px,3.6vw,19px);
+  color:#7c5364;text-align:center;max-width:32ch;line-height:1.7}
+.frame{position:relative;z-index:2;width:min(280px,68vw);aspect-ratio:3/4;border-radius:36px;overflow:hidden;
+  border:7px solid #fff;box-shadow:0 24px 48px rgba(224,97,155,.28);transform:rotate(-2.5deg);background:#ffd9ec}
 .frame .ph{border-color:rgba(224,97,155,.5);color:#b56b8f;background:repeating-linear-gradient(45deg,#ffe6f2 0 12px,#ffdcec 12px 24px)}
-.stick{position:absolute;font-size:30px;filter:drop-shadow(0 4px 8px rgba(224,97,155,.3));z-index:2}
-.enter{margin-top:4px;font-family:'Comfortaa',cursive;font-weight:700;font-size:17px;background:#ff5fa2;
+.stick{position:absolute;font-size:30px;filter:drop-shadow(0 4px 8px rgba(224,97,155,.3));z-index:3}
+.joke{position:relative;z-index:2;font-family:'Comfortaa',cursive;font-size:13px;color:#b98aa1;text-align:center;max-width:34ch;line-height:1.7}
+.enter{position:relative;z-index:2;font-family:'Comfortaa',cursive;font-weight:700;font-size:17px;background:#ff5fa2;
   color:#fff;padding:16px 40px;border-radius:999px;box-shadow:0 14px 28px rgba(255,95,162,.45);
   transition:transform .25s cubic-bezier(.34,1.6,.64,1),box-shadow .25s;display:inline-flex;align-items:center;gap:10px}
 .enter:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 20px 36px rgba(255,95,162,.55)}
 .enter:active{transform:scale(.97)}
-.hint{font-family:'Comfortaa',cursive;font-size:12px;color:#b98aa1}
 .pop-emo{position:fixed;pointer-events:none;z-index:150;font-size:22px;animation:pupUp 1.1s ease-out forwards}
 @keyframes pupUp{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-200%) scale(1.2) rotate(var(--r,20deg))}}
 
 /* ══════════════ 2 · ДОСЬЕ ══════════════ */
 #p2{background:#0f0d16;color:#eae6f5}
-#p2 .in2{min-height:100dvh;padding:96px 0 50px;display:flex;align-items:center}
-#p2 .eyebrow{color:#9d8cff}
+#p2 .hero .veil{background:linear-gradient(transparent 45%,rgba(15,13,22,.92))}
+#p2 .hero .eyebrow{color:#9d8cff}
+#p2 .in2{padding:60px 0 50px}
 .dossier{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:44px;align-items:center}
 @media(max-width:860px){.dossier{grid-template-columns:1fr;gap:34px}}
 .card-photo{position:relative;aspect-ratio:3/4;border-radius:20px;overflow:hidden;border:1px solid rgba(157,140,255,.3);box-shadow:0 30px 70px rgba(0,0,0,.6)}
@@ -140,8 +180,9 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .card-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(15,13,22,.85));pointer-events:none}
 .card-photo .tagline{position:absolute;left:20px;right:20px;bottom:18px;z-index:2;
   font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#c3b6ff;text-transform:uppercase}
-#p2 h2{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(38px,7.6vw,70px);line-height:.98;letter-spacing:-.03em;margin:14px 0 6px}
-#p2 h2 em{font-style:normal;color:#9d8cff}
+#p2 h3.tt{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(34px,7vw,62px);line-height:.98;letter-spacing:-.03em;margin:12px 0 6px}
+#p2 h3.tt em{font-style:normal;color:#9d8cff}
+#p2 .eyebrow{color:#9d8cff}
 #p2 .lede{color:#a49bc0;line-height:1.75;font-weight:300;max-width:52ch;margin-bottom:30px}
 .bars{display:flex;flex-direction:column;gap:16px;margin-bottom:32px}
 .bar .bt{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;
@@ -154,12 +195,16 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   color:#cfc6e6;transition:.28s;display:inline-flex;align-items:center;gap:7px}
 .chip:hover{border-color:#9d8cff;color:#fff;background:rgba(157,140,255,.14);transform:translateY(-2px)}
 
-/* ══════════════ 3 · ЧТО ГОВОРЯТ ══════════════ */
+/* ══════════════ 3 · ЦИТАТЫ ══════════════ */
 #p3{background:#f7f0e6;color:#3d3229}
-#p3 .head{padding:100px 0 46px;text-align:center}
+#p3 .hero{background:#2a231c}
+#p3 .hero video{background:#2a231c}
+#p3 .hero .veil{background:linear-gradient(transparent 50%,rgba(247,240,230,.94))}
+#p3 .hero .eyebrow{color:#8a6a4a}
+#p3 .hero h2{color:#3d3229;text-shadow:0 4px 24px rgba(247,240,230,.9)}
+#p3 .head{padding:44px 0 40px;text-align:center}
 #p3 .eyebrow{color:#b9855c}
-#p3 h2{font-family:'Cormorant Infant',serif;font-size:clamp(40px,8vw,74px);font-weight:600;margin-top:12px;line-height:1.06}
-#p3 .lead{margin:16px auto 0;max-width:48ch;color:#7d6d5e;line-height:1.75;font-weight:300}
+#p3 .lead{margin:0 auto;max-width:48ch;color:#7d6d5e;line-height:1.75;font-weight:300}
 .board{columns:3;column-gap:22px;padding-bottom:50px}
 @media(max-width:900px){.board{columns:2}}
 @media(max-width:600px){.board{columns:1}}
@@ -179,11 +224,16 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ══════════════ 4 · 17 ДЕКАБРЯ ══════════════ */
 #p4{background:#fff8ec;color:#2a1f33}
+#p4 .hero{background:#2a1f33}
+#p4 .hero video{background:#2a1f33}
+#p4 .hero .veil{background:linear-gradient(transparent 48%,rgba(255,248,236,.95))}
+#p4 .hero .eyebrow{color:#c46b3a}
+#p4 .hero h2{background:linear-gradient(120deg,#ff4e88,#ff8a3d 55%,#7c5cff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:1}
-#p4 .in4{position:relative;z-index:2;padding:92px 0 40px}
+#p4 .in4{position:relative;z-index:2;padding:44px 0 40px}
 .bd-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:22px}
 @media(max-width:820px){.bd-top{grid-template-columns:1fr;text-align:center;gap:26px}}
-.bd-num{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(120px,26vw,240px);line-height:.8;
+.bd-num{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(110px,24vw,220px);line-height:.8;
   letter-spacing:-.06em;background:linear-gradient(135deg,#ff4e88,#ff8a3d 45%,#7c5cff);
   -webkit-background-clip:text;background-clip:text;color:transparent;text-align:center}
 .bd-side{display:flex;flex-direction:column;gap:10px}
@@ -192,20 +242,19 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .bd-side .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a08bb5}
 .bd-side .v{font-family:'Unbounded',sans-serif;font-weight:500;font-size:clamp(17px,4vw,24px);color:#2a1f33}
 .bd-strip{margin:12px auto 0;text-align:center;font-family:'Unbounded',sans-serif;font-weight:300;
-  font-size:clamp(20px,5vw,34px);letter-spacing:-.01em;color:#5b4470}
+  font-size:clamp(20px,5vw,34px);color:#5b4470}
 .bd-grid{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 @media(max-width:900px){.bd-grid{grid-template-columns:repeat(2,1fr)}}
 .tile{border-radius:22px;padding:26px 22px;position:relative;overflow:hidden;min-height:172px;
   display:flex;flex-direction:column;justify-content:flex-end;transition:transform .4s cubic-bezier(.2,.7,.3,1),box-shadow .4s}
 .tile:hover{transform:translateY(-7px);box-shadow:0 22px 44px rgba(42,31,51,.2)}
 .tile .big{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(34px,7vw,52px);line-height:.95;letter-spacing:-.03em}
-.tile .cap{margin-top:10px;font-size:12.5px;line-height:1.5;opacity:.82;font-weight:600}
+.tile .cap2{margin-top:10px;font-size:12.5px;line-height:1.5;opacity:.82;font-weight:600}
 .t-mint{background:#c6f5e4;color:#0e5b46}
 .t-sun{background:#ffe08a;color:#6b4a05}
 .t-sky{background:#cfe4ff;color:#12406e}
 .t-berry{background:#ffd0e2;color:#8a1c4c}
 .tile.photo{grid-column:span 2;min-height:250px;padding:0}
-@media(max-width:900px){.tile.photo{grid-column:span 2}}
 .tile.photo .slot{position:absolute;inset:0}
 .tile.photo .ph{background:#f3e6d5;border-color:#d4bfa5;color:#8d7a63}
 .bd-cake{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
@@ -217,17 +266,14 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ══════════════ 5 · СУШИ И МЯСО ══════════════ */
 #p5{background:#070406;color:#f2e9ec}
-.izakaya{position:relative;min-height:100dvh;padding:90px 0 40px}
+#p5 .hero .veil{background:linear-gradient(transparent 45%,rgba(7,4,6,.95))}
+#p5 .hero .eyebrow{color:#ff2e88}
+#p5 .hero h2{text-shadow:0 0 8px #ff2e88,0 0 32px rgba(255,46,136,.7)}
+.izakaya{position:relative;padding:50px 0 40px}
 .lantern{position:absolute;top:0;width:2px;height:120px;background:linear-gradient(#ff2e88,transparent);opacity:.5}
 .lantern:nth-of-type(1){left:14%}.lantern:nth-of-type(2){left:46%;height:184px}.lantern:nth-of-type(3){left:81%;height:92px}
-.neon{text-align:center;font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(36px,9vw,86px);
-  color:#fff;text-shadow:0 0 8px #ff2e88,0 0 30px #ff2e88,0 0 62px rgba(255,46,136,.55);animation:flicker 7s infinite}
-@keyframes flicker{0%,17%,19%,21%,54%,56%,100%{opacity:1}18%,20%,55%{opacity:.42}}
-.kana{display:block;font-weight:300;font-size:12px;letter-spacing:.48em;color:#ff2e88;margin-top:16px;text-shadow:none;font-family:'Manrope',sans-serif}
-.izakaya .slot{margin:44px auto 0;width:min(940px,92vw);aspect-ratio:16/9;border-radius:5px;
-  border:1px solid rgba(255,46,136,.3);box-shadow:0 0 70px rgba(255,46,136,.18)}
-.izakaya .ph{background:#0d070a;color:#ff9dc4;border-color:rgba(255,46,136,.35)}
-.menu{margin:56px auto 0;width:min(780px,92vw)}
+.kana{display:block;text-align:center;font-weight:300;font-size:12px;letter-spacing:.48em;color:#ff2e88;margin-bottom:8px}
+.menu{margin:34px auto 0;width:min(780px,92vw)}
 .mrow{display:flex;align-items:baseline;gap:14px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:padding-left .3s}
 .mrow:hover{padding-left:10px}
 .mrow .jp{font-size:11px;letter-spacing:.26em;color:#ff2e88;min-width:56px;font-family:'JetBrains Mono',monospace}
@@ -236,27 +282,32 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .mrow .ds{font-size:13px;color:#a08e95;text-align:right;max-width:40%;line-height:1.55;font-weight:300}
 @media(max-width:620px){.mrow{flex-wrap:wrap;gap:6px}.mrow .ln{display:none}.mrow .ds{max-width:100%;text-align:left;width:100%;margin-top:4px}}
 
-/* ══════════════ 6 · АЙКЕН БОИТСЯ ══════════════ */
+/* ══════════════ 6 · СТРАХИ ══════════════ */
 #p6{background:#16150f;color:#f4f1e4}
+#p6 .hero .veil{background:linear-gradient(transparent 45%,rgba(22,21,15,.94))}
+#p6 .hero .eyebrow{color:#ffd400}
+#p6 .hero h2 span{color:#ffd400}
 .hazard{height:14px;background:repeating-linear-gradient(45deg,#ffd400 0 18px,#16150f 18px 36px);opacity:.9}
-.fear-top{position:relative;padding:70px 0 40px;overflow:hidden}
-.fear-top::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 55% at 50% 0,rgba(255,212,0,.14),transparent 70%)}
-.fear-hd{position:relative;display:grid;grid-template-columns:1fr minmax(0,300px);gap:38px;align-items:center}
+.fear-top{position:relative;padding:52px 0 34px;overflow:hidden}
+.fear-top::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 50% 0,rgba(255,212,0,.13),transparent 70%)}
+.fear-hd{position:relative;display:grid;grid-template-columns:1fr minmax(0,290px);gap:38px;align-items:center}
 @media(max-width:860px){.fear-hd{grid-template-columns:1fr;gap:28px}}
 #p6 .eyebrow{color:#ffd400}
-#p6 h2{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(36px,8vw,74px);line-height:.98;letter-spacing:-.03em;margin:14px 0 14px}
-#p6 h2 span{color:#ffd400}
+#p6 h3.tt{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(30px,6.6vw,54px);line-height:1;letter-spacing:-.03em;margin:12px 0 14px}
+#p6 h3.tt span{color:#ffd400}
 #p6 .lede{color:#a8a48e;line-height:1.8;font-weight:300;max-width:46ch;font-size:15px}
 .warn-badge{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:10px 16px;border-radius:8px;
   background:rgba(255,212,0,.12);border:1px solid rgba(255,212,0,.4);color:#ffd400;
   font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-.fear-vid{aspect-ratio:9/16;border-radius:16px;overflow:hidden;border:1px solid rgba(255,212,0,.35);
-  box-shadow:0 26px 60px rgba(0,0,0,.6);position:relative;max-height:64dvh;margin:0 auto;width:100%}
-.fear-vid .ph{background:#1c1a12;border-color:rgba(255,212,0,.4);color:#d9cf8a}
-.scale{padding:50px 0 40px}
-.frow{display:grid;grid-template-columns:44px 1fr 96px;gap:18px;align-items:center;
-  padding:20px 0;border-bottom:1px solid rgba(255,255,255,.08)}
-@media(max-width:640px){.frow{grid-template-columns:38px 1fr;gap:14px}.frow .meter{grid-column:2;margin-top:4px}}
+.proof{position:relative;aspect-ratio:3/4;border-radius:16px;overflow:hidden;border:1px solid rgba(255,212,0,.35);
+  box-shadow:0 26px 60px rgba(0,0,0,.6);max-width:290px;margin:0 auto;width:100%}
+.proof .ph{background:#1c1a12;border-color:rgba(255,212,0,.4);color:#d9cf8a}
+.proof::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 58%,rgba(22,21,15,.9));pointer-events:none}
+.proof .lb{position:absolute;left:14px;right:14px;bottom:13px;z-index:2;font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#ffd400}
+.scale{padding:36px 0 40px}
+.frow{display:grid;grid-template-columns:44px 1fr 96px;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+@media(max-width:640px){.frow{grid-template-columns:38px 1fr}.frow .meter{grid-column:2;margin-top:4px;justify-content:flex-start}}
 .frow .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(255,212,0,.1);border:1px solid rgba(255,212,0,.25);font-size:20px}
 .frow .nm{font-family:'Unbounded',sans-serif;font-weight:500;font-size:clamp(16px,4vw,21px)}
 .frow .sub{font-size:12.5px;color:#a8a48e;margin-top:5px;font-weight:300;line-height:1.5}
@@ -270,26 +321,18 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ══════════════ 7 · ЗА РУЛЁМ ══════════════ */
 #p7{background:#0b0a10;color:#f0edf5}
-.drive-hero{position:relative;height:82dvh;min-height:460px;overflow:hidden;background:#000}
-.drive-hero .slot{position:absolute;inset:0}
-.drive-hero video{filter:saturate(1.06) contrast(1.04)}
-.drive-hero .ph{background:#100e16;border:none}
-.drive-hero::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:linear-gradient(transparent 38%,rgba(11,10,16,.55) 68%,#0b0a10)}
-.sun{position:absolute;left:50%;top:14%;transform:translateX(-50%);width:min(560px,84vw);height:min(560px,84vw);
-  border-radius:50%;background:radial-gradient(circle,rgba(255,138,61,.5),rgba(255,78,136,.18) 46%,transparent 68%);
-  z-index:1;pointer-events:none;filter:blur(6px)}
-.drive-cap{position:absolute;left:0;right:0;bottom:8%;z-index:3;text-align:center;padding:0 22px}
-.drive-cap .eyebrow{color:#ffb27a}
-.drive-cap h2{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(38px,9.5vw,96px);
-  line-height:.92;letter-spacing:-.04em;margin-top:14px;
-  background:linear-gradient(100deg,#fff,#ffb27a 50%,#ff6fa8);-webkit-background-clip:text;background-clip:text;color:transparent}
+#p7 .hero .veil{background:linear-gradient(transparent 40%,rgba(11,10,16,.6) 70%,#0b0a10)}
+#p7 .hero .eyebrow{color:#ffb27a}
+#p7 .hero h2{background:linear-gradient(100deg,#fff,#ffb27a 50%,#ff6fa8);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+.sun{position:absolute;left:50%;top:8%;transform:translateX(-50%);width:min(520px,80vw);height:min(520px,80vw);
+  border-radius:50%;background:radial-gradient(circle,rgba(255,138,61,.42),rgba(255,78,136,.15) 46%,transparent 68%);
+  z-index:2;pointer-events:none;filter:blur(6px)}
 .road{height:70px;position:relative;overflow:hidden;background:linear-gradient(#0b0a10,#141220)}
 .road .dash{position:absolute;top:50%;height:3px;width:60px;border-radius:2px;background:rgba(255,178,122,.55);animation:zoom 1.4s linear infinite}
 @keyframes zoom{0%{left:-15%;opacity:0;transform:scaleX(.4)}20%{opacity:1}100%{left:110%;opacity:0;transform:scaleX(1.5)}}
-.gauge-row{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:center;padding:64px 0 20px}
+.gauge-row{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:center;padding:56px 0 20px}
 @media(max-width:820px){.gauge-row{grid-template-columns:1fr;gap:30px;justify-items:center;text-align:center}}
-#speedo{width:min(280px,72vw);height:auto}
+#speedo{width:min(260px,66vw);height:auto}
 .gauge-txt p{color:#a49bc0;line-height:1.85;font-weight:300;max-width:52ch}
 .gauge-txt p+p{margin-top:14px}
 .gauge-txt .eyebrow{color:#ffb27a;margin-bottom:14px;display:block}
@@ -297,7 +340,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 @media(max-width:760px){.cars{grid-template-columns:1fr}}
 .car{padding:30px 26px;border-radius:20px;border:1px solid rgba(255,255,255,.11);
   background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
-  transition:transform .4s cubic-bezier(.2,.7,.3,1),border-color .4s,box-shadow .4s;cursor:default}
+  transition:transform .4s cubic-bezier(.2,.7,.3,1),border-color .4s,box-shadow .4s}
 .car:hover{transform:translateY(-8px);border-color:rgba(255,178,122,.55);box-shadow:0 24px 50px rgba(0,0,0,.5)}
 .car .mk{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(26px,6vw,40px);letter-spacing:-.02em}
 .car .tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#ffb27a;margin-top:8px}
@@ -308,8 +351,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .rule .n{font-family:'JetBrains Mono',monospace;font-size:11px;color:#ffb27a;letter-spacing:.16em;margin-bottom:12px}
 .rule p{font-size:14.5px;line-height:1.7;color:#c9c2dc;font-weight:300}
 .finale{text-align:center;padding:56px 0 30px}
-.finale h3{font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(22px,5.4vw,40px);
-  line-height:1.2;letter-spacing:-.02em;color:#f0edf5;max-width:20ch;margin:0 auto}
+.finale h3{font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(22px,5.4vw,40px);line-height:1.2;letter-spacing:-.02em;max-width:20ch;margin:0 auto}
 .finale .sig{margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:#6f6787;text-transform:uppercase}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}.rise{opacity:1;transform:none}}
@@ -317,7 +359,6 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 </head>
 <body>
 
-<!-- ═══ SVG-иконки ═══ -->
 <svg style="position:absolute;width:0;height:0" aria-hidden="true">
   <symbol id="i-paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="7" cy="8" rx="2.1" ry="2.7"/><ellipse cx="12" cy="6.4" rx="2.1" ry="2.9"/><ellipse cx="17" cy="8" rx="2.1" ry="2.7"/><path d="M12 11c3.2 0 5.6 2.4 5.6 4.7 0 1.9-1.6 3.1-3.6 3.1-1 0-1.4-.4-2-.4s-1 .4-2 .4c-2 0-3.6-1.2-3.6-3.1C6.4 13.4 8.8 11 12 11z"/></g></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.4 6.1 6.6.4-5.1 4.2 1.7 6.4L12 16l-5.6 3.6 1.7-6.4L3 9l6.6-.4z"/></symbol>
@@ -328,13 +369,18 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   <symbol id="i-car" viewBox="0 0 24 24"><g fill="currentColor"><path d="M3.5 11.5l1.8-4.2A2.5 2.5 0 0 1 7.6 5.8h8.8a2.5 2.5 0 0 1 2.3 1.5l1.8 4.2H3.5z" opacity=".55"/><path d="M2.6 12.4h18.8a1.6 1.6 0 0 1 1.6 1.6v3a1 1 0 0 1-1 1h-1.3a2.4 2.4 0 0 1-4.7 0H8a2.4 2.4 0 0 1-4.7 0H2a1 1 0 0 1-1-1v-3a1.6 1.6 0 0 1 1.6-1.6z"/></g></symbol>
   <symbol id="i-arwL" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></symbol>
   <symbol id="i-arwR" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M12 19V6M5.5 12.5L12 6l6.5 6.5"/></symbol>
 </svg>
 
 <!-- ══════════ 1 · ПРИВЕТ ══════════ -->
 <section class="page active" id="p1" data-hue="#ff5fa2" data-name="Привет" data-icon="i-paw">
-  <div class="sky"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+  <div class="hero">
+    <div class="slot"><video data-src="assets/video-1-hello.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="veil"></div>
+    <div class="cap"><span class="eyebrow">неофициальный фан-сайт</span><h2>Это Айкен</h2></div>
+  </div>
   <div class="in1 wrap">
-    <p class="eyebrow">неофициальный фан-сайт</p>
+    <div class="sky"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
     <svg class="cat" viewBox="0 0 120 120" aria-hidden="true">
       <path d="M22 44 L18 16 L44 32 Z" fill="#ff8ec0"/><path d="M98 44 L102 16 L76 32 Z" fill="#ff8ec0"/>
       <path d="M26 43 L24 25 L41 35 Z" fill="#ffd3e6"/><path d="M94 43 L96 25 L79 35 Z" fill="#ffd3e6"/>
@@ -352,45 +398,51 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
       <span class="stick" style="bottom:-14px;left:-14px;transform:rotate(-12deg)">🐾</span>
       <div class="slot" style="height:100%"><img src="assets/photo-1-hello.jpg" alt="Айкен" onerror="phFail(this,'photo-1-hello.jpg')"></div>
     </div>
+    <p class="joke">Коты на этой странице нарисованные. Живых она боится — но об этом на шестой странице.</p>
     <button class="enter" data-go="2">Смотреть досье <svg width="18" height="18"><use href="#i-star"/></svg></button>
-    <p class="hint">включи звук, так интереснее 🔊</p>
   </div>
 </section>
 
 <!-- ══════════ 2 · ДОСЬЕ ══════════ -->
 <section class="page" id="p2" data-hue="#9d8cff" data-name="Досье" data-icon="i-star">
+  <div class="hero">
+    <div class="slot"><video data-src="assets/video-2-dossier.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="veil"></div>
+    <div class="cap"><span class="eyebrow">карточка персонажа</span><h2>100% Айкен</h2></div>
+  </div>
   <div class="in2"><div class="wrap dossier">
     <div class="card-photo rise">
       <div class="slot" style="height:100%"><img src="assets/photo-2-dossier.jpg" alt="Айкен" onerror="phFail(this,'photo-2-dossier.jpg')"></div>
       <p class="tagline">объект наблюдения · подтверждено очевидцами</p>
     </div>
     <div>
-      <p class="eyebrow rise">карточка персонажа</p>
-      <h2 class="rise">100% <em>Айкен</em></h2>
-      <p class="lede rise">Родилась 17 декабря 2002. Ест суши так, будто это спорт. Водит лучше половины знакомых парней. Боится жуков сильнее, чем экзаменов. Всё остальное — ниже.</p>
+      <p class="eyebrow rise">краткая сводка</p>
+      <h3 class="tt rise">Кто такая <em>Айкен</em></h3>
+      <p class="lede rise">Родилась 17 декабря 2002. Ест суши так, будто это спорт. Водит лучше половины знакомых парней. Боится всего, что шевелится, — включая котов. Всё остальное ниже.</p>
       <div class="bars rise">
         <div class="bar"><div class="bt"><span>Упрямство</span><b>94%</b></div><div class="track"><i class="fill" data-w="94"></i></div></div>
         <div class="bar"><div class="bt"><span>Скорость на дороге</span><b>88%</b></div><div class="track"><i class="fill" data-w="88"></i></div></div>
         <div class="bar"><div class="bt"><span>Любовь к суши</span><b>100%</b></div><div class="track"><i class="fill" data-w="100"></i></div></div>
-        <div class="bar"><div class="bt"><span>Спокойствие рядом с жуком</span><b>3%</b></div><div class="track"><i class="fill" data-w="3"></i></div></div>
+        <div class="bar"><div class="bt"><span>Спокойствие рядом с животным</span><b>2%</b></div><div class="track"><i class="fill" data-w="2"></i></div></div>
       </div>
       <div class="chips rise">
         <span class="chip">🖤 чёрный</span><span class="chip">💗 розовый</span><span class="chip">🍣 суши</span>
         <span class="chip">🥩 мясо</span><span class="chip">🚗 кабриолет</span><span class="chip">♐ стрелец</span>
-        <span class="chip">🎂 17.12.2002</span><span class="chip">🐛 не подходить с жуком</span>
+        <span class="chip">🎂 17.12.2002</span><span class="chip">🐾 не подходить с живностью</span>
       </div>
     </div>
   </div></div>
 </section>
 
-<!-- ══════════ 3 · ЧТО ГОВОРЯТ ══════════ -->
+<!-- ══════════ 3 · ЦИТАТЫ ══════════ -->
 <section class="page" id="p3" data-hue="#b9855c" data-name="Цитаты" data-icon="i-chat">
+  <div class="hero">
+    <div class="slot"><video data-src="assets/video-3-people.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="veil"></div>
+    <div class="cap"><span class="eyebrow">свидетельские показания</span><h2>Что о ней говорят</h2></div>
+  </div>
   <div class="wrap">
-    <div class="head">
-      <p class="eyebrow">свидетельские показания</p>
-      <h2>Что о ней говорят</h2>
-      <p class="lead">Друзья, родные, коллеги. Собери сюда их фразы — по паре строк от каждого, с подписью.</p>
-    </div>
+    <div class="head"><p class="lead">Друзья, родные, коллеги. Собери сюда их фразы — по паре строк от каждого, с подписью.</p></div>
     <div class="board">
       <div class="note"><p>Самый лёгкий человек в комнате. Заходит — и сразу становится шумно и хорошо.</p><p class="who">подруга</p></div>
       <div class="note photo">
@@ -401,7 +453,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
       <div class="note"><p>Умеет слушать так, что после разговора реально становится легче.</p><p class="who">одногруппница</p></div>
       <div class="note"><p>Готовит мясо лучше, чем половина ресторанов города. Это не комплимент, это факт.</p><p class="who">брат</p></div>
       <div class="note"><p>За рулём спокойнее, чем я. И паркуется с первого раза.</p><p class="who">друг</p></div>
-      <div class="note"><p>Один раз увидела паука и три дня вспоминала. Три дня.</p><p class="who">соседка</p></div>
+      <div class="note"><p>Соседский кот вышел из подъезда — она зашла обратно в лифт. Просто чтобы вы понимали масштаб.</p><p class="who">соседка</p></div>
       <div class="note"><p>Смеётся так, что смеются все вокруг.</p><p class="who">коллега</p></div>
     </div>
   </div>
@@ -409,29 +461,26 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 <!-- ══════════ 4 · 17 ДЕКАБРЯ ══════════ -->
 <section class="page" id="p4" data-hue="#ff4e88" data-name="17 декабря" data-icon="i-cake">
+  <div class="hero">
+    <div class="slot"><video data-src="assets/video-4-birthday.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="veil"></div>
+    <div class="cap"><span class="eyebrow">лучший день зимы</span><h2>17 декабря</h2></div>
+  </div>
   <canvas id="confetti"></canvas>
   <div class="in4"><div class="wrap">
     <div class="bd-top">
-      <div class="bd-side rise">
-        <span class="k">день</span><span class="v">вторник, 2002</span>
-        <span class="k" style="margin-top:12px">знак</span><span class="v">Стрелец ♐</span>
-      </div>
+      <div class="bd-side rise"><span class="k">год</span><span class="v">2002</span><span class="k" style="margin-top:12px">знак</span><span class="v">Стрелец ♐</span></div>
       <div class="bd-num rise">17</div>
-      <div class="bd-side r rise">
-        <span class="k">месяц</span><span class="v">декабрь</span>
-        <span class="k" style="margin-top:12px">статус</span><span class="v">лучший день зимы</span>
-      </div>
+      <div class="bd-side r rise"><span class="k">месяц</span><span class="v">декабрь</span><span class="k" style="margin-top:12px">статус</span><span class="v">главная дата</span></div>
     </div>
     <p class="bd-strip rise">Единственная причина любить декабрь</p>
-
     <div class="bd-grid">
-      <div class="tile t-mint rise"><div class="big" id="cd">—</div><p class="cap">дней до следующего дня рождения</p></div>
-      <div class="tile t-sun rise"><div class="big" id="alive">—</div><p class="cap">дней она делает мир громче</p></div>
+      <div class="tile t-mint rise"><div class="big" id="cd">—</div><p class="cap2">дней до следующего дня рождения</p></div>
+      <div class="tile t-sun rise"><div class="big" id="alive">—</div><p class="cap2">дней она делает мир громче</p></div>
       <div class="tile photo rise"><div class="slot"><img src="assets/photo-4-birthday.jpg" alt="Айкен" onerror="phFail(this,'photo-4-birthday.jpg')"></div></div>
-      <div class="tile t-sky rise"><div class="big" id="age">—</div><p class="cap">лет исполнится в этом декабре</p></div>
-      <div class="tile t-berry rise"><div class="big">♐</div><p class="cap">стрелец: прямая, честная, не сидит на месте</p></div>
+      <div class="tile t-sky rise"><div class="big" id="age">—</div><p class="cap2">лет исполнится в этом декабре</p></div>
+      <div class="tile t-berry rise"><div class="big">♐</div><p class="cap2">стрелец: прямая, честная, не сидит на месте</p></div>
     </div>
-
     <div class="bd-cake">
       <button class="cake-btn" id="cakeBtn"><svg width="20" height="20"><use href="#i-cake"/></svg> Задуть свечи</button>
       <p class="cake-note">нажимай сколько хочешь, конфетти не заканчивается</p>
@@ -441,10 +490,14 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 <!-- ══════════ 5 · СУШИ И МЯСО ══════════ -->
 <section class="page" id="p5" data-hue="#ff2e88" data-name="Еда" data-icon="i-food">
+  <div class="hero">
+    <div class="slot"><video data-src="assets/video-5-food.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="veil"></div>
+    <div class="cap"><span class="eyebrow">свежая рыба · открытый огонь</span><h2>Суши и мясо</h2></div>
+  </div>
   <div class="izakaya">
     <i class="lantern"></i><i class="lantern"></i><i class="lantern"></i>
-    <div class="wrap"><h2 class="neon">Суши и мясо<span class="kana">свежая рыба · открытый огонь</span></h2></div>
-    <div class="slot"><video data-src="assets/video-5-food.mp4" loop playsinline preload="none" muted></video></div>
+    <span class="kana">меню, проверенное годами</span>
     <div class="menu">
       <div class="mrow"><span class="jp">01</span><span class="nm">Сяке маки</span><span class="ln"></span><span class="ds">Первое, что она находит в меню. Всегда.</span></div>
       <div class="mrow"><span class="jp">02</span><span class="nm">Филадельфия</span><span class="ln"></span><span class="ds">Проверенная классика, без экспериментов.</span></div>
@@ -455,43 +508,49 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   </div>
 </section>
 
-<!-- ══════════ 6 · АЙКЕН БОИТСЯ ══════════ -->
+<!-- ══════════ 6 · СТРАХИ ══════════ -->
 <section class="page" id="p6" data-hue="#ffd400" data-name="Страхи" data-icon="i-bug">
+  <div class="hero">
+    <div class="slot"><video data-src="assets/video-6-fears.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="veil"></div>
+    <div class="cap"><span class="eyebrow">осторожно</span><h2>Айкен боится<br><span>всего живого</span></h2></div>
+  </div>
   <div class="hazard"></div>
   <div class="fear-top"><div class="wrap fear-hd">
     <div>
-      <p class="eyebrow rise">осторожно</p>
-      <h2 class="rise">Айкен<br>боится <span>всего живого</span></h2>
-      <p class="lede rise">Человек, который спокойно обгоняет фуру на трассе, но замирает от жука на подоконнике. Ниже — официальная шкала опасности, составленная по многолетним наблюдениям.</p>
+      <p class="eyebrow rise">официальная классификация</p>
+      <h3 class="tt rise">Список <span>короткий</span>: всё, что дышит</h3>
+      <p class="lede rise">Человек, который спокойно обгоняет фуру на трассе, замирает от жука на подоконнике. И от кота. И от чужой собаки. И от бабочки. Насекомые, животные — без исключений, размер значения не имеет. Ниже — шкала опасности по многолетним наблюдениям.</p>
       <div class="warn-badge rise"><svg width="15" height="15"><use href="#i-bug"/></svg> не показывать ей это в темноте</div>
     </div>
-    <div class="fear-vid rise"><div class="slot" style="height:100%"><video data-src="assets/video-6-fears.mp4" loop playsinline preload="none" muted></video></div></div>
+    <div class="proof rise">
+      <div class="slot" style="height:100%"><img src="assets/photo-6-proof.jpg" alt="Доказательство" onerror="phFail(this,'photo-6-proof.jpg')"></div>
+      <p class="lb">вещественное доказательство №1</p>
+    </div>
   </div></div>
 
   <div class="wrap scale">
     <div class="frow rise"><div class="ico">🕷️</div><div><div class="nm">Пауки</div><div class="sub">Абсолютный чемпион. Комната объявляется закрытой.</div></div><div class="meter" data-lvl="10"></div></div>
     <div class="frow rise"><div class="ico">🪳</div><div><div class="nm">Тараканы</div><div class="sub">Реакция быстрее, чем у профессионального спринтера.</div></div><div class="meter" data-lvl="10"></div></div>
-    <div class="frow rise"><div class="ico">🐝</div><div><div class="nm">Осы и пчёлы</div><div class="sub">Веранда закрыта до конца лета.</div></div><div class="meter" data-lvl="8"></div></div>
     <div class="frow rise"><div class="ico">🐍</div><div><div class="nm">Змеи</div><div class="sub">Даже по телевизору. Даже документалка.</div></div><div class="meter" data-lvl="9"></div></div>
-    <div class="frow rise"><div class="ico">🐕</div><div><div class="nm">Большие собаки</div><div class="sub">Переходит на другую сторону улицы заранее.</div></div><div class="meter" data-lvl="6"></div></div>
-    <div class="frow rise"><div class="ico">🐁</div><div><div class="nm">Мыши</div><div class="sub">Тут даже обсуждать нечего.</div></div><div class="meter" data-lvl="7"></div></div>
-    <div class="frow rise"><div class="ico">🦋</div><div><div class="nm">Бабочки</div><div class="sub">Красивые. Но пусть летают на расстоянии.</div></div><div class="meter" data-lvl="4"></div></div>
-    <p class="fear-foot rise">При этом <b>котов не боится вообще</b> — коты вне классификации. И на скорости 140 по трассе тоже спокойна. Логика здесь не работает, и это делает всё только смешнее.</p>
+    <div class="frow rise"><div class="ico">🐝</div><div><div class="nm">Осы и пчёлы</div><div class="sub">Веранда закрыта до конца лета.</div></div><div class="meter" data-lvl="9"></div></div>
+    <div class="frow rise"><div class="ico">🐕</div><div><div class="nm">Собаки</div><div class="sub">Любого размера. Переходит дорогу заранее.</div></div><div class="meter" data-lvl="8"></div></div>
+    <div class="frow rise"><div class="ico">🐈</div><div><div class="nm">Коты</div><div class="sub">Да, даже они. Милые только на картинках и в интернете.</div></div><div class="meter" data-lvl="8"></div></div>
+    <div class="frow rise"><div class="ico">🐁</div><div><div class="nm">Мыши и хомяки</div><div class="sub">Тут даже обсуждать нечего.</div></div><div class="meter" data-lvl="9"></div></div>
+    <div class="frow rise"><div class="ico">🦋</div><div><div class="nm">Бабочки</div><div class="sub">Красивые. Но пусть летают на расстоянии.</div></div><div class="meter" data-lvl="5"></div></div>
+    <p class="fear-foot rise">При этом <b>на 140 по трассе она абсолютно спокойна</b>. Скорость — нормально, а бабочка — нет. Логика здесь не работает, и это делает всё только смешнее.</p>
   </div>
 </section>
 
 <!-- ══════════ 7 · ЗА РУЛЁМ ══════════ -->
 <section class="page" id="p7" data-hue="#ffb27a" data-name="За рулём" data-icon="i-car">
-  <div class="drive-hero">
+  <div class="hero">
     <div class="slot"><video data-src="assets/video-7-drive.mp4" loop playsinline preload="none" muted></video></div>
     <div class="sun"></div>
-    <div class="drive-cap">
-      <p class="eyebrow">крыша сложена, музыка громче</p>
-      <h2>За рулём</h2>
-    </div>
+    <div class="veil"></div>
+    <div class="cap"><span class="eyebrow">крыша сложена, музыка громче</span><h2>За рулём</h2></div>
   </div>
   <div class="road" id="road"></div>
-
   <div class="wrap">
     <div class="gauge-row">
       <svg id="speedo" viewBox="0 0 200 200" aria-hidden="true">
@@ -499,9 +558,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
         <path d="M30 148 A88 88 0 1 1 170 148" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="10" stroke-linecap="round"/>
         <path id="arc" d="M30 148 A88 88 0 1 1 170 148" fill="none" stroke="url(#gg)" stroke-width="10" stroke-linecap="round"
               stroke-dasharray="415" stroke-dashoffset="415" style="transition:stroke-dashoffset 2.2s cubic-bezier(.2,.7,.3,1)"/>
-        <defs><linearGradient id="gg" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stop-color="#7c5cff"/><stop offset=".55" stop-color="#ff6fa8"/><stop offset="1" stop-color="#ffb27a"/>
-        </linearGradient></defs>
+        <defs><linearGradient id="gg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7c5cff"/><stop offset=".55" stop-color="#ff6fa8"/><stop offset="1" stop-color="#ffb27a"/></linearGradient></defs>
         <text id="spd" x="100" y="106" text-anchor="middle" fill="#f0edf5" font-family="Unbounded,sans-serif" font-size="42" font-weight="800">0</text>
         <text x="100" y="130" text-anchor="middle" fill="#7f7796" font-family="JetBrains Mono,monospace" font-size="11" letter-spacing="3">KM/H</text>
       </svg>
@@ -511,18 +568,15 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
         <p>Она из тех, кто садится за руль не «доехать», а «поехать». Разница огромная, и кто водит — тот понимает.</p>
       </div>
     </div>
-
     <div class="cars">
       <div class="car rise"><div class="mk">BMW</div><div class="tag">задний привод · характер</div><p>Для тех, кто чувствует машину. Отзывается на каждое движение и не прощает лени — как раз её темп.</p></div>
       <div class="car rise"><div class="mk">Mercedes</div><div class="tag">комфорт · статус</div><p>Когда хочется, чтобы дорога была мягкой, а вечер — длинным. Второй пункт в списке, но спор до сих пор не закрыт.</p></div>
     </div>
-
     <div class="rules">
       <div class="rule rise"><p class="n">ПРАВИЛО 01</p><p>Музыку выбирает водитель. Обсуждению не подлежит.</p></div>
       <div class="rule rise"><p class="n">ПРАВИЛО 02</p><p>Если крыша складывается — она сложена. Даже если +12.</p></div>
       <div class="rule rise"><p class="n">ПРАВИЛО 03</p><p>Дорога всегда длиннее, чем нужно. Это не ошибка навигатора.</p></div>
     </div>
-
     <div class="finale">
       <h3 class="rise">Вот такая Айкен. Семь комнат — и это ещё не всё.</h3>
       <p class="sig rise">фан-сайт · сделан вручную</p>
@@ -539,6 +593,12 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   </svg>
 </button>
 
+<button class="top" id="topBtn" aria-label="Наверх">
+  <span class="ears"><i></i><i></i></span>
+  <span class="tail"></span>
+  <svg width="22" height="22"><use href="#i-up"/></svg>
+</button>
+
 <nav class="hud" id="hud" aria-label="Навигация по страницам">
   <button class="arw" id="prev" aria-label="Предыдущая"><svg width="16" height="16"><use href="#i-arwL"/></svg></button>
   <div class="tabs" id="tabs"></div>
@@ -552,9 +612,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 function phFail(el,name){el.parentElement.innerHTML='<div class="ph">ФОТО НЕ НАЙДЕНО<br>положи файл:<br><b>assets/'+name+'</b></div>'}
 function vidFail(v){v.parentElement.innerHTML='<div class="ph">ВИДЕО НЕ НАЙДЕНО<br>положи файл:<br><b>'+v.dataset.src+'</b><br><br>mp4 · H.264 + AAC</div>'}
 
-/* ═══ страницы ═══ */
 const pages=[...document.querySelectorAll('.page')];
-const tabsBox=document.getElementById('tabs'),hud=document.getElementById('hud'),sndBtn=document.getElementById('snd');
+const tabsBox=document.getElementById('tabs'),hud=document.getElementById('hud'),sndBtn=document.getElementById('snd'),topBtn=document.getElementById('topBtn');
 const curtain=document.getElementById('curtain'),curName=document.getElementById('curName'),curIco=document.getElementById('curIco');
 let cur=0,unlocked=false,wantSound=true,busy=false;
 
@@ -567,6 +626,16 @@ pages.forEach((p,i)=>{
   tabsBox.appendChild(b);
 });
 const tabs=[...tabsBox.children];
+
+/* ═══ прозрачность навигации внизу + кнопка наверх ═══ */
+function onScroll(p){
+  if(p!==pages[cur])return;
+  const bottom=p.scrollHeight-p.clientHeight-p.scrollTop;
+  hud.classList.toggle('faded',bottom<70);
+  topBtn.classList.toggle('show',p.scrollTop>360);
+}
+pages.forEach(p=>p.addEventListener('scroll',()=>onScroll(p),{passive:true}));
+topBtn.onclick=()=>pages[cur].scrollTo({top:0,behavior:'smooth'});
 
 function go(i){
   if(busy||i<0||i>=pages.length||i===cur) return;
@@ -582,6 +651,7 @@ function go(i){
     tabs.forEach((t,n)=>t.classList.toggle('on',n===cur));
     document.documentElement.style.setProperty('--hue',p.dataset.hue);
     document.querySelector('meta[name=theme-color]').content=p.dataset.hue;
+    hud.classList.remove('faded'); topBtn.classList.remove('show');
     syncVideo(); wake(p);
     curtain.classList.remove('down'); curtain.classList.add('up');
     setTimeout(()=>busy=false,520);
@@ -598,7 +668,6 @@ addEventListener('touchend',e=>{
   if(Math.abs(dx)>72&&Math.abs(dx)>Math.abs(dy)*1.8) go(dx<0?cur+1:cur-1);
 },{passive:true});
 
-/* ═══ появление блоков ═══ */
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:.18});
 document.querySelectorAll('.rise').forEach(el=>io.observe(el));
 function wake(p){
@@ -628,9 +697,9 @@ function syncVideo(){
   if(!unlocked)return;
   vids.forEach(v=>{
     if(v.closest('.page')===pages[cur]){
-      v.muted=!wantSound; v.volume=0;
+      v.muted=!wantSound; v.volume=0; v.currentTime=0;
       const pr=v.play(); if(pr)pr.catch(()=>{v.muted=true;v.play().catch(()=>{})});
-      if(wantSound) fade(v,.68,1500);
+      if(wantSound) fade(v,.68,1400);
     }else{
       fade(v,0,220);
       setTimeout(()=>{if(v.closest('.page')!==pages[cur])v.pause()},240);
@@ -682,7 +751,7 @@ function burst(n,x,y,spread){
     x:x??Math.random()*cf.width, y:y??-20,
     vx:(Math.random()-.5)*(spread||3), vy:y?-(Math.random()*9+4):Math.random()*2+1.5,
     w:Math.random()*7+4, h:Math.random()*5+3, r:Math.random()*6, vr:(Math.random()-.5)*.3,
-    c:COLORS[Math.floor(Math.random()*COLORS.length)], life:1
+    c:COLORS[Math.floor(Math.random()*COLORS.length)]
   });
 }
 (function cfLoop(){
@@ -710,7 +779,7 @@ function fillMeters(){
     const lvl=+m.dataset.lvl; m.innerHTML='';
     for(let i=0;i<10;i++){
       const b=document.createElement('i'); m.appendChild(b);
-      if(i<lvl) setTimeout(()=>b.classList.add(lvl>=9?'max':'on'),400+mi*130+i*55);
+      if(i<lvl) setTimeout(()=>b.classList.add(lvl>=9?'max':'on'),400+mi*120+i*50);
     }
   });
 }
