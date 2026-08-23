@@ -11,10 +11,13 @@
 ╔═══════════════════════════════════════════════════════════════════╗
 ║  ФАЙЛЫ. Создай рядом папку assets/ и положи туда:                 ║
 ╠═══════════════════════════════════════════════════════════════════╣
-║  ВИДЕО — 7 шт, обязательные. Все горизонтальные 16:9,             ║
-║  формат .mp4, кодек H.264 + звук AAC, до 15–20 МБ каждое.         ║
+║  ВИДЕО — 7 шт, обязательные. Каждое открывает свою страницу      ║
+║  НА ВЕСЬ ЭКРАН. Лучше вертикальные 9:16 (снятые с телефона) —    ║
+║  так кадр идеально ложится на мобильном. Формат .mp4,            ║
+║  кодек H.264 + звук AAC, до 15–20 МБ каждое.                     ║
 ║                                                                   ║
-║   assets/video-1-hello.mp4      стр.1 «Привет»                    ║
+║   assets/video-1-hello.mp4      стр.1 — в КРУГЕ по центру,       ║
+║                                 лучше квадрат 1:1 или 9:16       ║
 ║   assets/video-2-dossier.mp4    стр.2 «Досье»                     ║
 ║   assets/video-3-people.mp4     стр.3 «Цитаты»                    ║
 ║   assets/video-4-birthday.mp4   стр.4 «17 декабря»                ║
@@ -62,18 +65,22 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .slot img{width:100%;height:100%;object-fit:cover}
 .slot video{width:100%;height:100%;object-fit:cover}
 
-/* ═══════════ ВИДЕО-ШАПКА (одинаковая на всех страницах) ═══════════ */
-/* контейнер строго 16:9 — на мобильном кадр виден целиком, без обрезки боков */
-.hero{position:relative;width:100%;aspect-ratio:16/9;max-height:76dvh;background:#000;overflow:hidden}
+/* ═══════════ ВИДЕО-ШАПКА — НА ВЕСЬ ЭКРАН ═══════════ */
+.hero{position:relative;width:100%;height:100dvh;min-height:480px;background:#000;overflow:hidden}
 .hero .slot{position:absolute;inset:0}
-.hero video{object-fit:contain;background:#000}
+.hero video{object-fit:cover;background:#000}
 .hero .ph{border:none}
 .hero .veil{position:absolute;inset:0;z-index:2;pointer-events:none}
-.hero .cap{position:absolute;left:0;right:0;bottom:6%;z-index:3;text-align:center;padding:0 20px}
-.hero .cap .eyebrow{display:block;margin-bottom:10px;opacity:.9}
+.hero .cap{position:absolute;left:0;right:0;bottom:10%;z-index:3;text-align:center;padding:0 20px}
+.hero .cap .eyebrow{display:block;margin-bottom:12px;opacity:.9}
 .hero h2{font-family:'Unbounded',sans-serif;font-weight:800;line-height:.95;letter-spacing:-.03em;
-  font-size:clamp(30px,7.4vw,72px);text-shadow:0 6px 34px rgba(0,0,0,.75)}
-@media(max-width:600px){.hero .cap{bottom:5%}}
+  font-size:clamp(32px,8vw,76px);text-shadow:0 6px 34px rgba(0,0,0,.8)}
+.scroll-cue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:4;
+  display:flex;flex-direction:column;align-items:center;gap:7px;pointer-events:none;
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(255,255,255,.62);animation:cue 2.2s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:translateX(-50%) translateY(0);opacity:.55}50%{transform:translateX(-50%) translateY(7px);opacity:1}}
+.scroll-cue i{width:1px;height:26px;background:linear-gradient(currentColor,transparent)}
 
 /* ═══════════ ЗАНАВЕС ═══════════ */
 #curtain{position:fixed;inset:0;z-index:200;pointer-events:none;display:grid;place-items:center;
@@ -136,13 +143,25 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ══════════════ 1 · ПРИВЕТ ══════════════ */
 #p1{background:#fff0f7;color:#3a2029}
-#p1 .hero{background:#ffdcec;border-radius:0 0 40px 40px}
-#p1 .hero video{background:#ffdcec}
-#p1 .hero .ph{background:repeating-linear-gradient(45deg,#ffe6f2 0 12px,#ffdcec 12px 24px);color:#b56b8f}
-#p1 .hero .veil{background:linear-gradient(transparent 55%,rgba(255,240,247,.9))}
-#p1 .hero h2{color:#ff5fa2;text-shadow:0 4px 22px rgba(255,255,255,.8);font-family:'Comfortaa',cursive;font-weight:700}
-#p1 .hero .eyebrow{color:#e0619b}
-#p1 .in1{position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding:44px 0 40px}
+/* круглое видео по центру */
+.hero-round{position:relative;min-height:100dvh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:26px;padding:70px 0 60px;overflow:hidden}
+.hero-round .eyebrow{color:#e0619b;position:relative;z-index:3}
+.round-vid{position:relative;z-index:3;width:min(72vw,54dvh);aspect-ratio:1;border-radius:50%;
+  overflow:hidden;background:#ffdcec;border:9px solid #fff;
+  box-shadow:0 26px 60px rgba(224,97,155,.34),0 0 0 1px rgba(224,97,155,.12)}
+.round-vid video{width:100%;height:100%;object-fit:cover}
+.round-vid .ph{background:repeating-linear-gradient(45deg,#ffe6f2 0 12px,#ffdcec 12px 24px);border-color:rgba(224,97,155,.5);color:#b56b8f}
+.ring{position:absolute;z-index:2;width:calc(min(72vw,54dvh) + 46px);aspect-ratio:1;border-radius:50%;
+  border:2px dashed rgba(255,95,162,.42);animation:spin 26s linear infinite}
+.ring.r2{width:calc(min(72vw,54dvh) + 84px);border-style:dotted;border-color:rgba(255,138,61,.32);animation-duration:40s;animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orbit{position:absolute;z-index:3;width:calc(min(72vw,54dvh) + 46px);aspect-ratio:1;animation:spin 18s linear infinite}
+.orbit span{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:26px;
+  filter:drop-shadow(0 4px 8px rgba(224,97,155,.3))}
+.round-ears{position:absolute;z-index:4;top:calc(50% - min(36vw,27dvh) - 30px);display:flex;gap:min(30vw,22dvh)}
+.round-ears i{width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-bottom:30px solid #fff}
+#p1 .in1{position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding:10px 0 40px}
 #p1 .sky{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 #p1 .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 18s ease-in-out infinite}
 #p1 .b1{width:44vw;height:44vw;background:#ffc2e0;top:-10vw;left:-12vw}
@@ -170,7 +189,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ══════════════ 2 · ДОСЬЕ ══════════════ */
 #p2{background:#0f0d16;color:#eae6f5}
-#p2 .hero .veil{background:linear-gradient(transparent 45%,rgba(15,13,22,.92))}
+#p2 .hero .veil{background:linear-gradient(transparent 52%,rgba(15,13,22,.55) 74%,#0f0d16)}
 #p2 .hero .eyebrow{color:#9d8cff}
 #p2 .in2{padding:60px 0 50px}
 .dossier{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:44px;align-items:center}
@@ -199,7 +218,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 #p3{background:#f7f0e6;color:#3d3229}
 #p3 .hero{background:#2a231c}
 #p3 .hero video{background:#2a231c}
-#p3 .hero .veil{background:linear-gradient(transparent 50%,rgba(247,240,230,.94))}
+#p3 .hero .veil{background:linear-gradient(transparent 54%,rgba(247,240,230,.6) 76%,#f7f0e6)}
 #p3 .hero .eyebrow{color:#8a6a4a}
 #p3 .hero h2{color:#3d3229;text-shadow:0 4px 24px rgba(247,240,230,.9)}
 #p3 .head{padding:44px 0 40px;text-align:center}
@@ -226,7 +245,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 #p4{background:#fff8ec;color:#2a1f33}
 #p4 .hero{background:#2a1f33}
 #p4 .hero video{background:#2a1f33}
-#p4 .hero .veil{background:linear-gradient(transparent 48%,rgba(255,248,236,.95))}
+#p4 .hero .veil{background:linear-gradient(transparent 52%,rgba(255,248,236,.6) 75%,#fff8ec)}
 #p4 .hero .eyebrow{color:#c46b3a}
 #p4 .hero h2{background:linear-gradient(120deg,#ff4e88,#ff8a3d 55%,#7c5cff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:1}
@@ -266,7 +285,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ══════════════ 5 · СУШИ И МЯСО ══════════════ */
 #p5{background:#070406;color:#f2e9ec}
-#p5 .hero .veil{background:linear-gradient(transparent 45%,rgba(7,4,6,.95))}
+#p5 .hero .veil{background:linear-gradient(transparent 52%,rgba(7,4,6,.6) 75%,#070406)}
 #p5 .hero .eyebrow{color:#ff2e88}
 #p5 .hero h2{text-shadow:0 0 8px #ff2e88,0 0 32px rgba(255,46,136,.7)}
 .izakaya{position:relative;padding:50px 0 40px}
@@ -284,7 +303,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ══════════════ 6 · СТРАХИ ══════════════ */
 #p6{background:#16150f;color:#f4f1e4}
-#p6 .hero .veil{background:linear-gradient(transparent 45%,rgba(22,21,15,.94))}
+#p6 .hero .veil{background:linear-gradient(transparent 52%,rgba(22,21,15,.6) 75%,#16150f)}
 #p6 .hero .eyebrow{color:#ffd400}
 #p6 .hero h2 span{color:#ffd400}
 .hazard{height:14px;background:repeating-linear-gradient(45deg,#ffd400 0 18px,#16150f 18px 36px);opacity:.9}
@@ -321,7 +340,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ══════════════ 7 · ЗА РУЛЁМ ══════════════ */
 #p7{background:#0b0a10;color:#f0edf5}
-#p7 .hero .veil{background:linear-gradient(transparent 40%,rgba(11,10,16,.6) 70%,#0b0a10)}
+#p7 .hero .veil{background:linear-gradient(transparent 50%,rgba(11,10,16,.55) 74%,#0b0a10)}
 #p7 .hero .eyebrow{color:#ffb27a}
 #p7 .hero h2{background:linear-gradient(100deg,#fff,#ffb27a 50%,#ff6fa8);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
 .sun{position:absolute;left:50%;top:8%;transform:translateX(-50%);width:min(520px,80vw);height:min(520px,80vw);
@@ -374,13 +393,20 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 <!-- ══════════ 1 · ПРИВЕТ ══════════ -->
 <section class="page active" id="p1" data-hue="#ff5fa2" data-name="Привет" data-icon="i-paw">
-  <div class="hero">
-    <div class="slot"><video data-src="assets/video-1-hello.mp4" loop playsinline preload="none" muted></video></div>
-    <div class="veil"></div>
-    <div class="cap"><span class="eyebrow">неофициальный фан-сайт</span><h2>Это Айкен</h2></div>
+  <div class="hero-round">
+    <div class="sky"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+    <p class="eyebrow">неофициальный фан-сайт</p>
+    <div class="ring"></div><div class="ring r2"></div>
+    <div class="orbit"><span>💗</span></div>
+    <div class="round-ears"><i></i><i></i></div>
+    <div class="round-vid">
+      <div class="slot" style="height:100%"><video data-src="assets/video-1-hello.mp4" loop playsinline preload="none" muted></video></div>
+    </div>
+    <h1>Айкен</h1>
+    <p class="sub">Семь комнат про одного человека: факты, цитаты, 17 декабря, еда, страхи и машины.</p>
+    <div class="scroll-cue" style="color:#c98aa8"><span>листай вниз</span><i></i></div>
   </div>
   <div class="in1 wrap">
-    <div class="sky"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
     <svg class="cat" viewBox="0 0 120 120" aria-hidden="true">
       <path d="M22 44 L18 16 L44 32 Z" fill="#ff8ec0"/><path d="M98 44 L102 16 L76 32 Z" fill="#ff8ec0"/>
       <path d="M26 43 L24 25 L41 35 Z" fill="#ffd3e6"/><path d="M94 43 L96 25 L79 35 Z" fill="#ffd3e6"/>
@@ -391,8 +417,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
       <path d="M60 81 q-6 7 -12 2 M60 81 q6 7 12 2" stroke="#ff5fa2" stroke-width="2.6" fill="none" stroke-linecap="round"/>
       <circle cx="33" cy="74" r="6" fill="#ff8ec0" opacity=".55"/><circle cx="87" cy="74" r="6" fill="#ff8ec0" opacity=".55"/>
     </svg>
-    <h1>Айкен</h1>
-    <p class="sub">Семь комнат про одного человека: факты, цитаты, 17 декабря, еда, страхи и машины.</p>
+    <p class="sub">Живёт в Алматы, ест суши, водит быстро и боится всего живого. Ниже — доказательства.</p>
     <div class="frame">
       <span class="stick" style="top:-16px;right:-12px;transform:rotate(14deg)">🎀</span>
       <span class="stick" style="bottom:-14px;left:-14px;transform:rotate(-12deg)">🐾</span>
@@ -409,6 +434,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
     <div class="slot"><video data-src="assets/video-2-dossier.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">карточка персонажа</span><h2>100% Айкен</h2></div>
+  <div class="scroll-cue"><span>листай вниз</span><i></i></div>
   </div>
   <div class="in2"><div class="wrap dossier">
     <div class="card-photo rise">
@@ -440,6 +466,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
     <div class="slot"><video data-src="assets/video-3-people.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">свидетельские показания</span><h2>Что о ней говорят</h2></div>
+  <div class="scroll-cue"><span>листай вниз</span><i></i></div>
   </div>
   <div class="wrap">
     <div class="head"><p class="lead">Друзья, родные, коллеги. Собери сюда их фразы — по паре строк от каждого, с подписью.</p></div>
@@ -465,6 +492,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
     <div class="slot"><video data-src="assets/video-4-birthday.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">лучший день зимы</span><h2>17 декабря</h2></div>
+  <div class="scroll-cue"><span>листай вниз</span><i></i></div>
   </div>
   <canvas id="confetti"></canvas>
   <div class="in4"><div class="wrap">
@@ -494,6 +522,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
     <div class="slot"><video data-src="assets/video-5-food.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">свежая рыба · открытый огонь</span><h2>Суши и мясо</h2></div>
+  <div class="scroll-cue"><span>листай вниз</span><i></i></div>
   </div>
   <div class="izakaya">
     <i class="lantern"></i><i class="lantern"></i><i class="lantern"></i>
@@ -514,6 +543,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
     <div class="slot"><video data-src="assets/video-6-fears.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">осторожно</span><h2>Айкен боится<br><span>всего живого</span></h2></div>
+  <div class="scroll-cue"><span>листай вниз</span><i></i></div>
   </div>
   <div class="hazard"></div>
   <div class="fear-top"><div class="wrap fear-hd">
@@ -549,6 +579,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
     <div class="sun"></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">крыша сложена, музыка громче</span><h2>За рулём</h2></div>
+  <div class="scroll-cue"><span>листай вниз</span><i></i></div>
   </div>
   <div class="road" id="road"></div>
   <div class="wrap">
