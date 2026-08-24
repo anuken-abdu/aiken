@@ -12,12 +12,13 @@
 ║  ФАЙЛЫ. Создай рядом папку assets/ и положи туда:                 ║
 ╠═══════════════════════════════════════════════════════════════════╣
 ║  ВИДЕО — 7 шт, обязательные. Каждое открывает свою страницу      ║
-║  НА ВЕСЬ ЭКРАН. Лучше вертикальные 9:16 (снятые с телефона) —    ║
-║  так кадр идеально ложится на мобильном. Формат .mp4,            ║
-║  кодек H.264 + звук AAC, до 15–20 МБ каждое.                     ║
+║  на весь экран. Пропорции ЛЮБЫЕ — кадр никогда не обрезается,    ║
+║  края заполняются размытой копией (как в TikTok/Shorts).         ║
+║  Оптимально для телефона: вертикальное 1080x1920 (9:16).         ║
+║  Формат .mp4, кодек H.264 + звук AAC, до 15-20 МБ каждое.        ║
 ║                                                                   ║
 ║   assets/video-1-hello.mp4      стр.1 — в КРУГЕ по центру,       ║
-║                                 лучше квадрат 1:1 или 9:16       ║
+║                                 тут лучше квадрат 1:1            ║
 ║   assets/video-2-dossier.mp4    стр.2 «Досье»                     ║
 ║   assets/video-3-people.mp4     стр.3 «Цитаты»                    ║
 ║   assets/video-4-birthday.mp4   стр.4 «17 декабря»                ║
@@ -65,11 +66,15 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .slot img{width:100%;height:100%;object-fit:cover}
 .slot video{width:100%;height:100%;object-fit:cover}
 
-/* ═══════════ ВИДЕО-ШАПКА — НА ВЕСЬ ЭКРАН ═══════════ */
+/* ═══════════ ВИДЕО-ШАПКА — НА ВЕСЬ ЭКРАН, БЕЗ ОБРЕЗКИ ═══════════ */
+/* задний слой: размытая копия кадра заполняет края            */
+/* передний слой: само видео целиком, ничего не режется        */
 .hero{position:relative;width:100%;height:100dvh;min-height:480px;background:#000;overflow:hidden}
-.hero .slot{position:absolute;inset:0}
-.hero video{object-fit:cover;background:#000}
-.hero .ph{border:none}
+.hero .slot{position:absolute;inset:0;background:#000}
+.hero video.v-blur{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:blur(34px) brightness(.55) saturate(1.25);transform:scale(1.18);z-index:0;pointer-events:none}
+.hero video.v-main{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;z-index:1}
+.hero .ph{border:none;position:relative;z-index:1}
 .hero .veil{position:absolute;inset:0;z-index:2;pointer-events:none}
 .hero .cap{position:absolute;left:0;right:0;bottom:10%;z-index:3;text-align:center;padding:0 20px}
 .hero .cap .eyebrow{display:block;margin-bottom:12px;opacity:.9}
@@ -81,6 +86,23 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   color:rgba(255,255,255,.62);animation:cue 2.2s ease-in-out infinite}
 @keyframes cue{0%,100%{transform:translateX(-50%) translateY(0);opacity:.55}50%{transform:translateX(-50%) translateY(7px);opacity:1}}
 .scroll-cue i{width:1px;height:26px;background:linear-gradient(currentColor,transparent)}
+
+/* ═══════════ СТАРТОВЫЙ ЭКРАН (нужен для звука) ═══════════ */
+#gate{position:fixed;inset:0;z-index:300;display:grid;place-items:center;text-align:center;
+  background:linear-gradient(165deg,#ffeaf4,#ffd9ec 55%,#ffe6cf);
+  transition:opacity .8s ease,visibility .8s}
+#gate.hide{opacity:0;visibility:hidden;pointer-events:none}
+#gate .gin{display:flex;flex-direction:column;align-items:center;gap:20px;padding:30px}
+#gate .gcat{width:104px;height:104px;animation:bob 3s ease-in-out infinite;filter:drop-shadow(0 12px 24px rgba(224,97,155,.3))}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+#gate h1{font-family:'Comfortaa',cursive;font-weight:700;font-size:clamp(50px,14vw,116px);color:#ff5fa2;line-height:.92;letter-spacing:-.03em}
+#gate p{font-family:'Comfortaa',cursive;font-size:clamp(14px,3.6vw,17px);color:#7c5364;max-width:30ch;line-height:1.7}
+#gate .gbtn{margin-top:6px;font-family:'Comfortaa',cursive;font-weight:700;font-size:17px;background:#ff5fa2;
+  color:#fff;padding:18px 42px;border-radius:999px;box-shadow:0 16px 32px rgba(255,95,162,.45);
+  display:inline-flex;align-items:center;gap:11px;transition:transform .25s cubic-bezier(.34,1.6,.64,1),box-shadow .25s}
+#gate .gbtn:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 22px 40px rgba(255,95,162,.55)}
+#gate .gbtn:active{transform:scale(.97)}
+#gate .gnote{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#c48fa9}
 
 /* ═══════════ ЗАНАВЕС ═══════════ */
 #curtain{position:fixed;inset:0;z-index:200;pointer-events:none;display:grid;place-items:center;
@@ -224,7 +246,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 #p3 .head{padding:44px 0 40px;text-align:center}
 #p3 .eyebrow{color:#b9855c}
 #p3 .lead{margin:0 auto;max-width:48ch;color:#7d6d5e;line-height:1.75;font-weight:300}
-.board{columns:3;column-gap:22px;padding-bottom:50px}
+.board{columns:3;column-gap:22px;padding:52px 0 50px}
 @media(max-width:900px){.board{columns:2}}
 @media(max-width:600px){.board{columns:1}}
 .note{break-inside:avoid;margin-bottom:22px;padding:28px 24px 22px;border-radius:3px;background:#fffdf8;
@@ -395,12 +417,12 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 <section class="page active" id="p1" data-hue="#ff5fa2" data-name="Привет" data-icon="i-paw">
   <div class="hero-round">
     <div class="sky"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
-    <p class="eyebrow">неофициальный фан-сайт</p>
+    <p class="eyebrow">досье на одного человека</p>
     <div class="ring"></div><div class="ring r2"></div>
     <div class="orbit"><span>💗</span></div>
     <div class="round-ears"><i></i><i></i></div>
     <div class="round-vid">
-      <div class="slot" style="height:100%"><video data-src="assets/video-1-hello.mp4" loop playsinline preload="none" muted></video></div>
+      <div class="slot" style="height:100%"><video class="v-main" data-src="assets/video-1-hello.mp4" loop playsinline preload="none" muted></video></div>
     </div>
     <h1>Айкен</h1>
     <p class="sub">Семь комнат про одного человека: факты, цитаты, 17 декабря, еда, страхи и машины.</p>
@@ -417,7 +439,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
       <path d="M60 81 q-6 7 -12 2 M60 81 q6 7 12 2" stroke="#ff5fa2" stroke-width="2.6" fill="none" stroke-linecap="round"/>
       <circle cx="33" cy="74" r="6" fill="#ff8ec0" opacity=".55"/><circle cx="87" cy="74" r="6" fill="#ff8ec0" opacity=".55"/>
     </svg>
-    <p class="sub">Живёт в Алматы, ест суши, водит быстро и боится всего живого. Ниже — доказательства.</p>
+    <p class="sub">Ест суши, водит быстро и боится всего живого. Ниже — доказательства.</p>
     <div class="frame">
       <span class="stick" style="top:-16px;right:-12px;transform:rotate(14deg)">🎀</span>
       <span class="stick" style="bottom:-14px;left:-14px;transform:rotate(-12deg)">🐾</span>
@@ -431,9 +453,9 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 <!-- ══════════ 2 · ДОСЬЕ ══════════ -->
 <section class="page" id="p2" data-hue="#9d8cff" data-name="Досье" data-icon="i-star">
   <div class="hero">
-    <div class="slot"><video data-src="assets/video-2-dossier.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="slot"><video class="v-blur" data-src="assets/video-2-dossier.mp4" loop playsinline preload="none" muted aria-hidden="true"></video><video class="v-main" data-src="assets/video-2-dossier.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
-    <div class="cap"><span class="eyebrow">карточка персонажа</span><h2>100% Айкен</h2></div>
+    <div class="cap"><h2>100% Айкен</h2></div>
   <div class="scroll-cue"><span>листай вниз</span><i></i></div>
   </div>
   <div class="in2"><div class="wrap dossier">
@@ -463,13 +485,12 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 <!-- ══════════ 3 · ЦИТАТЫ ══════════ -->
 <section class="page" id="p3" data-hue="#b9855c" data-name="Цитаты" data-icon="i-chat">
   <div class="hero">
-    <div class="slot"><video data-src="assets/video-3-people.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="slot"><video class="v-blur" data-src="assets/video-3-people.mp4" loop playsinline preload="none" muted aria-hidden="true"></video><video class="v-main" data-src="assets/video-3-people.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">свидетельские показания</span><h2>Что о ней говорят</h2></div>
   <div class="scroll-cue"><span>листай вниз</span><i></i></div>
   </div>
   <div class="wrap">
-    <div class="head"><p class="lead">Друзья, родные, коллеги. Собери сюда их фразы — по паре строк от каждого, с подписью.</p></div>
     <div class="board">
       <div class="note"><p>Самый лёгкий человек в комнате. Заходит — и сразу становится шумно и хорошо.</p><p class="who">подруга</p></div>
       <div class="note photo">
@@ -489,7 +510,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 <!-- ══════════ 4 · 17 ДЕКАБРЯ ══════════ -->
 <section class="page" id="p4" data-hue="#ff4e88" data-name="17 декабря" data-icon="i-cake">
   <div class="hero">
-    <div class="slot"><video data-src="assets/video-4-birthday.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="slot"><video class="v-blur" data-src="assets/video-4-birthday.mp4" loop playsinline preload="none" muted aria-hidden="true"></video><video class="v-main" data-src="assets/video-4-birthday.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">лучший день зимы</span><h2>17 декабря</h2></div>
   <div class="scroll-cue"><span>листай вниз</span><i></i></div>
@@ -519,7 +540,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 <!-- ══════════ 5 · СУШИ И МЯСО ══════════ -->
 <section class="page" id="p5" data-hue="#ff2e88" data-name="Еда" data-icon="i-food">
   <div class="hero">
-    <div class="slot"><video data-src="assets/video-5-food.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="slot"><video class="v-blur" data-src="assets/video-5-food.mp4" loop playsinline preload="none" muted aria-hidden="true"></video><video class="v-main" data-src="assets/video-5-food.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">свежая рыба · открытый огонь</span><h2>Суши и мясо</h2></div>
   <div class="scroll-cue"><span>листай вниз</span><i></i></div>
@@ -540,7 +561,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 <!-- ══════════ 6 · СТРАХИ ══════════ -->
 <section class="page" id="p6" data-hue="#ffd400" data-name="Страхи" data-icon="i-bug">
   <div class="hero">
-    <div class="slot"><video data-src="assets/video-6-fears.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="slot"><video class="v-blur" data-src="assets/video-6-fears.mp4" loop playsinline preload="none" muted aria-hidden="true"></video><video class="v-main" data-src="assets/video-6-fears.mp4" loop playsinline preload="none" muted></video></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">осторожно</span><h2>Айкен боится<br><span>всего живого</span></h2></div>
   <div class="scroll-cue"><span>листай вниз</span><i></i></div>
@@ -575,7 +596,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 <!-- ══════════ 7 · ЗА РУЛЁМ ══════════ -->
 <section class="page" id="p7" data-hue="#ffb27a" data-name="За рулём" data-icon="i-car">
   <div class="hero">
-    <div class="slot"><video data-src="assets/video-7-drive.mp4" loop playsinline preload="none" muted></video></div>
+    <div class="slot"><video class="v-blur" data-src="assets/video-7-drive.mp4" loop playsinline preload="none" muted aria-hidden="true"></video><video class="v-main" data-src="assets/video-7-drive.mp4" loop playsinline preload="none" muted></video></div>
     <div class="sun"></div>
     <div class="veil"></div>
     <div class="cap"><span class="eyebrow">крыша сложена, музыка громче</span><h2>За рулём</h2></div>
@@ -610,7 +631,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
     </div>
     <div class="finale">
       <h3 class="rise">Вот такая Айкен. Семь комнат — и это ещё не всё.</h3>
-      <p class="sig rise">фан-сайт · сделан вручную</p>
+      <p class="sig rise">разработан анонимным персонажем</p>
     </div>
   </div>
 </section>
@@ -636,12 +657,41 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   <button class="arw" id="next" aria-label="Следующая"><svg width="16" height="16"><use href="#i-arwR"/></svg></button>
 </nav>
 
+<div id="gate">
+  <div class="gin">
+    <svg class="gcat" viewBox="0 0 120 120" aria-hidden="true">
+      <path d="M22 44 L18 16 L44 32 Z" fill="#ff8ec0"/><path d="M98 44 L102 16 L76 32 Z" fill="#ff8ec0"/>
+      <path d="M26 43 L24 25 L41 35 Z" fill="#ffd3e6"/><path d="M94 43 L96 25 L79 35 Z" fill="#ffd3e6"/>
+      <ellipse cx="60" cy="68" rx="44" ry="38" fill="#ffa9d0"/><ellipse cx="60" cy="72" rx="30" ry="24" fill="#ffe3f0"/>
+      <circle cx="45" cy="62" r="8" fill="#fff"/><circle cx="45" cy="62" r="4.6" fill="#3a2029"/>
+      <circle cx="75" cy="62" r="8" fill="#fff"/><circle cx="75" cy="62" r="4.6" fill="#3a2029"/>
+      <path d="M56 76 h8 l-4 5 z" fill="#ff5fa2"/>
+      <path d="M60 81 q-6 7 -12 2 M60 81 q6 7 12 2" stroke="#ff5fa2" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <circle cx="33" cy="74" r="6" fill="#ff8ec0" opacity=".55"/><circle cx="87" cy="74" r="6" fill="#ff8ec0" opacity=".55"/>
+    </svg>
+    <h1>Айкен</h1>
+    <p>Семь комнат про одного человека. В каждой своё видео.</p>
+    <button class="gbtn" id="gateBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M11 5 L6 9 H2 v6 h4 l5 4 z" fill="currentColor" stroke="none"/>
+        <path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>
+      </svg>
+      Войти со звуком
+    </button>
+    <p class="gnote">один тап — и дальше всё играет само</p>
+  </div>
+</div>
+
 <div id="curtain"><div class="cn"><svg id="curIco"><use href="#i-paw"/></svg><span id="curName"></span></div></div>
 
 <script>
 /* ═══ заглушки ═══ */
 function phFail(el,name){el.parentElement.innerHTML='<div class="ph">ФОТО НЕ НАЙДЕНО<br>положи файл:<br><b>assets/'+name+'</b></div>'}
-function vidFail(v){v.parentElement.innerHTML='<div class="ph">ВИДЕО НЕ НАЙДЕНО<br>положи файл:<br><b>'+v.dataset.src+'</b><br><br>mp4 · H.264 + AAC</div>'}
+function vidFail(v){
+  const box=v.parentElement;
+  const b=box.querySelector('video.v-blur'); if(b)b.remove();
+  box.innerHTML='<div class="ph">ВИДЕО НЕ НАЙДЕНО<br>положи файл:<br><b>'+v.dataset.src+'</b><br><br>mp4 · H.264 + AAC</div>';
+}
 
 const pages=[...document.querySelectorAll('.page')];
 const tabsBox=document.getElementById('tabs'),hud=document.getElementById('hud'),sndBtn=document.getElementById('snd'),topBtn=document.getElementById('topBtn');
@@ -711,11 +761,22 @@ function wake(p){
 }
 
 /* ═══ звук ═══ */
-const vids=[...document.querySelectorAll('video')];
+const vids=[...document.querySelectorAll('video.v-main')];
+const blurs=[...document.querySelectorAll('video.v-blur')];
 vids.forEach(v=>{v.addEventListener('error',()=>vidFail(v));v.volume=0});
+
+/* размытый фон повторяет основное видео */
+function partner(v){const s=v.parentElement;return s?s.querySelector('video.v-blur'):null}
+vids.forEach(v=>{
+  const b=partner(v); if(!b)return;
+  v.addEventListener('timeupdate',()=>{
+    if(b.readyState>0 && Math.abs(b.currentTime-v.currentTime)>.35) b.currentTime=v.currentTime;
+  });
+});
+
 function unlock(){
   if(unlocked)return; unlocked=true;
-  vids.forEach(v=>{if(!v.src&&v.dataset.src){v.src=v.dataset.src;v.load()}});
+  [...vids,...blurs].forEach(v=>{if(!v.src&&v.dataset.src){v.src=v.dataset.src;v.load()}});
   hud.classList.add('on'); sndBtn.classList.add('on'); syncVideo();
 }
 addEventListener('pointerdown',unlock,{once:true});
@@ -727,13 +788,15 @@ function fade(v,to,ms){
 function syncVideo(){
   if(!unlocked)return;
   vids.forEach(v=>{
+    const b=partner(v);
     if(v.closest('.page')===pages[cur]){
       v.muted=!wantSound; v.volume=0; v.currentTime=0;
       const pr=v.play(); if(pr)pr.catch(()=>{v.muted=true;v.play().catch(()=>{})});
-      if(wantSound) fade(v,.68,1400);
+      if(wantSound) fade(v,.72,1200);
+      if(b){b.muted=true;b.currentTime=0;b.play().catch(()=>{})}
     }else{
       fade(v,0,220);
-      setTimeout(()=>{if(v.closest('.page')!==pages[cur])v.pause()},240);
+      setTimeout(()=>{if(v.closest('.page')!==pages[cur]){v.pause();if(b)b.pause()}},240);
     }
   });
 }
@@ -832,6 +895,14 @@ for(let i=0;i<5;i++){
 
 document.documentElement.style.setProperty('--hue','#ff5fa2');
 setTimeout(()=>wake(pages[0]),200);
+
+/* ═══ стартовый экран: один тап разблокирует звук на всю сессию ═══ */
+const gate=document.getElementById('gate');
+document.getElementById('gateBtn').addEventListener('click',()=>{
+  unlock();
+  gate.classList.add('hide');
+  setTimeout(()=>gate.remove(),900);
+});
 </script>
 </body>
 </html>
