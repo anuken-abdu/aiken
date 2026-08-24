@@ -4,8 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>АЙКЕН — фан-сайт</title>
-<meta name="description" content="Всё про Айкен: факты, страхи, еда, машины и 17 декабря">
+<meta name="description" content="Семь комнат про одного человека: досье, цитаты, 17 декабря, суши и мясо, страхи и кабриолет.">
 <meta name="theme-color" content="#ff5fa2">
+
+<!-- ═══ ПРЕВЬЮ ССЫЛКИ В WHATSAPP / TELEGRAM / INSTAGRAM ═══
+     ВАЖНО: если домен другой — замени aiken-one.vercel.app
+     во ВСЕХ строках ниже. Ссылки обязаны быть полными (https://...),
+     относительные пути мессенджеры не читают.                    -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="АЙКЕН">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://aiken-one.vercel.app/">
+<meta property="og:title" content="АЙКЕН — досье на одного человека">
+<meta property="og:description" content="Семь комнат: досье, цитаты, 17 декабря, суши и мясо, страхи и кабриолет.">
+<meta property="og:image" content="https://aiken-one.vercel.app/banner.jpg">
+<meta property="og:image:secure_url" content="https://aiken-one.vercel.app/banner.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="АЙКЕН — досье на одного человека">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="АЙКЕН — досье на одного человека">
+<meta name="twitter:description" content="Семь комнат: досье, цитаты, 17 декабря, суши и мясо, страхи и кабриолет.">
+<meta name="twitter:image" content="https://aiken-one.vercel.app/banner.jpg">
+
+<link rel="canonical" href="https://aiken-one.vercel.app/">
 
 <!--
 ╔═══════════════════════════════════════════════════════════════════╗
@@ -87,8 +111,9 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 @keyframes cue{0%,100%{transform:translateX(-50%) translateY(0);opacity:.55}50%{transform:translateX(-50%) translateY(7px);opacity:1}}
 .scroll-cue i{width:1px;height:26px;background:linear-gradient(currentColor,transparent)}
 
-/* стр.6 и 7 — видео прижато к верху экрана, пустое место уходит вниз под заголовок */
+/* стр.6 и 7 — видео прижато к верху, текст подтягивается к нижней кромке кадра */
 #p6 .hero video.v-main,#p7 .hero video.v-main{object-position:50% 0}
+#p6 .hero .cap,#p7 .hero .cap,#p6 .hero .veil,#p7 .hero .veil{transition:bottom .3s ease,background .3s ease}
 
 /* ═══════════ СТАРТОВЫЙ ЭКРАН (нужен для звука) ═══════════ */
 #gate{position:fixed;inset:0;z-index:300;display:grid;place-items:center;text-align:center;
@@ -761,6 +786,7 @@ function wake(p){
   if(p.id==='p2') setTimeout(()=>p.querySelectorAll('.fill').forEach(f=>f.style.width=f.dataset.w+'%'),350);
   if(p.id==='p6') fillMeters();
   if(p.id==='p7') runSpeedo();
+  if(p.id==='p6'||p.id==='p7') setTimeout(fitTopVideo,60);
 }
 
 /* ═══ звук ═══ */
@@ -895,6 +921,32 @@ for(let i=0;i<5;i++){
   d.style.animationDelay=(i*.28)+'s'; d.style.top=(28+i*4)+'%';
   road.appendChild(d);
 }
+
+/* ═══ стр.6 и 7: текст подтягивается вплотную к нижней кромке видео ═══ */
+const TOPFIT=[{sel:'#p6 .hero',bg:'22,21,15'},{sel:'#p7 .hero',bg:'11,10,16'}];
+function fitTopVideo(){
+  TOPFIT.forEach(cfg=>{
+    const hero=document.querySelector(cfg.sel); if(!hero)return;
+    const v=hero.querySelector('video.v-main'),cap=hero.querySelector('.cap'),
+          veil=hero.querySelector('.veil'),cue=hero.querySelector('.scroll-cue');
+    if(!v||!v.videoWidth||!v.videoHeight)return;
+    const hw=hero.clientWidth,hh=hero.clientHeight;
+    const rh=Math.min(hh,hw*v.videoHeight/v.videoWidth); // реальная высота кадра
+    const gap=Math.max(0,hh-rh);                          // пустота под кадром
+    // затемнение живёт внутри кадра, ниже — сплошной фон страницы: шва не видно
+    veil.style.background='linear-gradient(transparent '+Math.round(rh*.52)+'px,'
+      +'rgba('+cfg.bg+',.55) '+Math.round(rh-70)+'px,'
+      +'rgb('+cfg.bg+') '+Math.round(rh)+'px,rgb('+cfg.bg+') 100%)';
+    cap.style.bottom=(gap>60?gap+14:Math.round(hh*.10))+'px';
+    if(cue)cue.style.bottom=(gap>90?Math.round(gap*.22):26)+'px';
+  });
+}
+vids.forEach(v=>{
+  v.addEventListener('loadedmetadata',fitTopVideo);
+  v.addEventListener('loadeddata',fitTopVideo);
+});
+addEventListener('resize',fitTopVideo);
+addEventListener('orientationchange',()=>setTimeout(fitTopVideo,250));
 
 document.documentElement.style.setProperty('--hue','#ff5fa2');
 setTimeout(()=>wake(pages[0]),200);
